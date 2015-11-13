@@ -2,14 +2,17 @@
 # Python 3 code written by and for the Institute for the Study
 # of the Ancient World: http://isaw.nyu.edu
 
-"""Test the base class for Pleidades feed creators and manipulators."""
+"""Test Pleidades feed creators and manipulators."""
 
 from nose.tools import *
+import os
 
-from pleiades.feeder import Feeder
+from pleiades.feeder import Feeder, AuthorFeeder
+from pleiades.feeder.tests import TESTDATAPATH
 
 
 class test_feeder():
+    """Test base mixin Feeder class."""
 
     def __init__(self):
         pass
@@ -37,3 +40,28 @@ class test_feeder():
         foo = 'bar'
         f = Feeder(foo)
         assert_equals(f.src, foo)
+
+
+class test_author_feeder():
+    """Test AuthorFeeder class."""
+
+    def __init__(self):
+        pass
+
+    def test_create(self):
+        """Test creation of the feeder."""
+
+        # use local file instead of web
+        foo = os.path.join(os.getcwd(), *TESTDATAPATH, 'authors.ttl')
+        f = AuthorFeeder(foo)
+        assert_equals(foo, f.src)
+
+    def test_lists(self):
+        """Test getting list versions of the authors."""
+
+        # use local file instead of web
+        foo = os.path.join(os.getcwd(), *TESTDATAPATH, 'authors.ttl')
+        f = AuthorFeeder(foo)
+        f.read()
+        l = f.names()
+        assert_equals(len(l), 334)

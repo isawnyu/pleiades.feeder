@@ -8,7 +8,7 @@ from rdflib import Graph
 
 
 class TTLReader():
-    """Read Turtle RDF."""
+    """Read and extract Turtle RDF."""
 
     def __init__(self, src=None):
         if isinstance(src, str):
@@ -24,6 +24,8 @@ class TTLReader():
             )
 
     def read(self):
+        """Read RDF Turtle using RDF lib."""
+
         g = Graph()
         g.parse(self.src, format='turtle')
         self.graph = g

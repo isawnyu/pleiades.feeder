@@ -9,8 +9,8 @@ import os
 from urllib.error import HTTPError, URLError
 
 from pleiades.feeder.readers import TTLReader
-
-TESTDATADIR = ['pleiades', 'feeder', 'tests', 'data']
+from pleiades.feeder.tests import TESTDATAPATH
+from pleiades.feeder.vocabs import PLEIADES_URLS
 
 
 class TestTTLReader():
@@ -48,14 +48,14 @@ class TestTTLReader():
         """Test the reader's ability to read."""
 
         # read a local file
-        foo = os.path.join(os.getcwd(), *TESTDATADIR, 'authors.ttl')
+        foo = os.path.join(os.getcwd(), *TESTDATAPATH, 'authors.ttl')
         r = TTLReader(foo)
         assert_equals(r.read(), 670)
         assert_is_not_none(r.graph)
         del(r)
 
         # try to read a non-existent local file
-        foo = os.path.join(os.getcwd(), *TESTDATADIR, 'bogus.ttl')
+        foo = os.path.join(os.getcwd(), *TESTDATAPATH, 'bogus.ttl')
         r = TTLReader(foo)
         try:
             r.read()
@@ -66,7 +66,7 @@ class TestTTLReader():
             )
 
         # read a file on the web
-        foo = 'http://atlantides.org/downloads/pleiades/rdf/place-types.ttl'
+        foo = PLEIADES_URLS['place-types']['turtle']
         r = TTLReader(foo)
         assert_is_not_none(r.read())
         del(r)
@@ -97,6 +97,4 @@ class TestTTLReader():
                 )
             )
         del(r)
-
-
 
