@@ -50,7 +50,8 @@ class TestTTLReader():
         # read a local file
         foo = os.path.join(os.getcwd(), *TESTDATADIR, 'authors.ttl')
         r = TTLReader(foo)
-        assert_is_not_none(r.read())
+        assert_equals(r.read(), 670)
+        assert_is_not_none(r.graph)
         del(r)
 
         # try to read a non-existent local file
@@ -68,6 +69,7 @@ class TestTTLReader():
         foo = 'http://atlantides.org/downloads/pleiades/rdf/place-types.ttl'
         r = TTLReader(foo)
         assert_is_not_none(r.read())
+        del(r)
 
         # try to read a bogus file on the web
         foo = 'http://atlantides.org/bogus.ttl'
@@ -79,6 +81,7 @@ class TestTTLReader():
                 inst.__str__(),
                 'HTTP Error 404: Not Found'
             )
+        del(r)
 
         # try to read a bogus file from a bogus site on the web
         foo = 'http://nowhere.org/bogus.ttl'
@@ -93,6 +96,7 @@ class TestTTLReader():
                     'provided, or not known>'
                 )
             )
+        del(r)
 
 
 

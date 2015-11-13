@@ -26,4 +26,5 @@ class TTLReader():
     def read(self):
         g = Graph()
         g.parse(self.src, format='turtle')
+        self.graph = g
         return len(g)
